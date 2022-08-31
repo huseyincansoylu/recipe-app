@@ -11,6 +11,7 @@ const Search = () => {
     const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         navigate("/searched/" + input)
+        setInput("")
     }
 
     return (
