@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import styled from "styled-components"
 import { motion } from "framer-motion"
-import { Link, useParams } from "react-router-dom"
+import { useParams } from "react-router-dom"
 import { Recipe } from '../types'
+import Card from '../components/Card'
 
 type CuisineResult = {
   number: number;
@@ -38,11 +39,9 @@ const Cuisine = () => {
       transition={{ duration: 0.5 }}
     >
       {cuisine.map(item => {
+        const { id, image, title } = item
         return (
-          <Card key={item.id}>
-            <img src={item.image} alt="" />
-            <h4>{item.title}</h4>
-          </Card>
+          <Card id={id} image={image} title={title} key={id} />
         )
       })}
     </Grid>
@@ -53,22 +52,6 @@ const Grid = styled(motion.div)`
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
   grid-gap: 3rem;
-`
-
-const Card = styled.div`
-  img {
-    width: 100%;
-    border-radius: 1.5rem;
-  }
-
-  a {
-    text-decoration: none;
-  }
-  
-  h4 {
-    text-align: center;
-    padding: 1rem;
-  }
 `
 
 export default Cuisine

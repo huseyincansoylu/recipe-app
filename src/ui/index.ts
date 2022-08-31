@@ -1,11 +1,9 @@
 import styled from "styled-components"
 
-
 export const Wrapper = styled.div`
   margin: 4rem 0rem;
 `
-
-export const Card = styled.div`
+export const SlideCard = styled.div`
   min-height: 18rem;
   border-radius: 1.5rem;
   overflow: hidden;
@@ -37,7 +35,6 @@ export const Card = styled.div`
     align-items: center;
   }
 `
-
 export const Gradient = styled.div`
   z-index: 3;
   position: absolute;

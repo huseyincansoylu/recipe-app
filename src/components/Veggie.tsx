@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Recipe } from '../types'
 import { Splide, SplideSlide } from "@splidejs/react-splide"
-import { Card, Gradient, Wrapper } from '../ui'
+import { Gradient, SlideCard, Wrapper } from '../ui'
 import { Link } from 'react-router-dom'
 
 const Veggie = () => {
@@ -43,13 +43,13 @@ const Veggie = () => {
                 {veggie.map(recipe => {
                     return (
                         <SplideSlide key={recipe.id}>
-                            <Card key={recipe.id}>
+                            <SlideCard key={recipe.id}>
                                 <Link to={"/recipe/" + recipe.id}>
                                     <p>{recipe.title}</p>
                                     <img src={recipe.image} alt="" />
                                     <Gradient />
                                 </Link>
-                            </Card>
+                            </SlideCard>
                         </SplideSlide>
                     )
                 })}
