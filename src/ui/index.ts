@@ -8,6 +8,7 @@ export const SlideCard = styled.div`
   border-radius: 1.5rem;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 
   img {
      border-radius: 1.5rem;
