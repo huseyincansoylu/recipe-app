@@ -14,6 +14,7 @@ type CuisineResult = {
 const SearchedPage = () => {
   const { search } = useParams()
   const [meals, setMeals] = useState<Recipe[]>([])
+  const [noFound, setNoFound] = useState(false)
 
   useEffect(() => {
     if (search) {
@@ -25,17 +26,24 @@ const SearchedPage = () => {
     const res = await fetch(`https://api.spoonacular.com/recipes/complexSearch?apiKey=${process.env.REACT_APP_API_KEY}&query=${name}`)
     const data: CuisineResult = await res.json()
     setMeals(data.results)
+    if (!data.results.length) {
+      setNoFound(true)
+    }
   }
 
   return (
-    <Grid>
-      {meals.map(item => {
-        const { id, image, title } = item
-        return (
-          <Card id={id} image={image} title={title} key={id} />
-        )
-      })}
-    </Grid>
+    <>
+      {noFound ? <div style={{ fontWeight: "bold" }}>No item found with this search input</div> : <Grid>
+        {meals.map(item => {
+          const { id, image, title } = item
+          return (
+            <Card id={id} image={image} title={title} key={id} />
+          )
+        })}
+      </Grid>}
+    </>
+
+
   )
 }
 
