@@ -4,57 +4,61 @@ import styled from 'styled-components'
 
 const Recipe = () => {
     const [recipe, setRecipe] = useState<any>()
+    const [loading, setLoading] = useState(false)
     const [activeTab, setActiveTab] = useState("ins")
 
-    let { id } = useParams()
-
-    console.log(id)
+    let params = useParams()
 
     useEffect(() => {
-        id && fetchDetails(id)
-    }, [id])
+        params.id && fetchDetails(params.id)
+    }, [params.id])
 
     const fetchDetails = async (id: string) => {
+        setLoading(true)
         const res = await fetch(`https://api.spoonacular.com/recipes/${id}/information?apiKey=${process.env.REACT_APP_API_KEY}`)
-
         const data = await res.json()
-
         setRecipe(data)
+        setLoading(false)
     }
 
-    return (
-        <DetailWrapper>
-            <div>
-                <h2>{recipe?.title}</h2>
-                <img src={recipe?.image} alt="" />
-            </div>
-            <Info>
-                <Button className={activeTab === "ins" ? "active" : ""} onClick={() => setActiveTab("ins")}>Instructions</Button>
-                <Button className={activeTab === "ing" ? "active" : ""} onClick={() => setActiveTab("ing")}>Ingredients</Button>
+    if (loading) {
+        return <h3 style={{ margin: "100px auto" }}>loading...</h3>
+    } else {
+        return (
+            <DetailWrapper>
+                <div>
+                    <h2>{recipe?.title}</h2>
+                    <img src={recipe?.image} alt="" />
+                </div>
+                <Info>
+                    <Button className={activeTab === "ins" ? "active" : ""} onClick={() => setActiveTab("ins")}>Instructions</Button>
+                    <Button className={activeTab === "ing" ? "active" : ""} onClick={() => setActiveTab("ing")}>Ingredients</Button>
 
-                {activeTab === "ins" ? <div>
-                    <h3 dangerouslySetInnerHTML={{ __html: recipe?.summary }}></h3>
-                    <h3 dangerouslySetInnerHTML={{ __html: recipe?.instructions }}></h3>
-                </div> : <ul>
-                    {recipe.extendedIngredients.map((i: any) => {
-                        return (
-                            <li key={i.id}>
-                                {i.original}
-                            </li>
-                        )
-                    })}
-                </ul>}
-            </Info>
-        </DetailWrapper >
-    )
+                    {activeTab === "ins" ? <div>
+                        <h3 dangerouslySetInnerHTML={{ __html: recipe?.summary }}></h3>
+                        <h3 dangerouslySetInnerHTML={{ __html: recipe?.instructions }}></h3>
+                    </div> : <ul>
+                        {recipe.extendedIngredients.map((i: any) => {
+                            return (
+                                <li key={i.id}>
+                                    {i.original}
+                                </li>
+                            )
+                        })}
+                    </ul>}
+                </Info>
+            </DetailWrapper >
+        )
+    }
+
+
 }
 
 export default Recipe
 
 
-
 const DetailWrapper = styled.div`
- margin-top: 10rem;
+ margin-top: 5rem;
  margin-bottom: 5rem;
  display: flex;
 
@@ -85,6 +89,7 @@ const Button = styled.button`
   border: 2px solid black;
   margin-right: 2rem;
   font-weight: 600;
+  cursor : pointer;
 `
 
 const Info = styled.div`
